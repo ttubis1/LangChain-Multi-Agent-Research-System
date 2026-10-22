@@ -13,7 +13,7 @@ from langchain_openai import ChatOpenAI
 from langchain_tavily import TavilySearch
 
 # שימוש ב-LangGraph prebuilt agent
-from langgraph.prebuilt import create_react_agent
+from langchain.agents import create_agent
 
 # אתחול המודל
 llm = ChatOpenAI(model="gpt-4o", temperature=0.2)
@@ -90,12 +90,12 @@ def build_search_agent():
     tools = [TavilySearch(max_results=5)]
     system_prompt = "You are an expert web researcher. Find recent, reliable and detailed sources."
     # שימוש בארגומנט 'prompt' התקין בגרסאות LangGraph העדכניות
-    return create_react_agent(llm, tools, prompt=system_prompt)
+    return create_agent(llm, tools, system_prompt=system_prompt)
 
 def build_reader_agent():
     tools = [scrape_url]
     system_prompt = "You are an expert web reader. Pick the best URL from search results and scrape it."
-    return create_react_agent(llm, tools, prompt=system_prompt)
+    return create_agent(llm, tools, system_prompt=system_prompt)
 
 
 # ──────────────────────────────────────────────────────────
